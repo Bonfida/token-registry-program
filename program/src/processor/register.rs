@@ -140,22 +140,19 @@ pub(crate) fn process(
     let mint_as_bytes = Pubkey::from_str(params.mint.as_str()).unwrap().to_bytes();
 
     // Token data
-    let token_data = TokenData {
-        name: params.name,
-        ticker: params.ticker,
-        mint: mint_as_bytes,
-        decimals: params.decimals,
-        website: params.website,
-        logo_uri: params.logo_uri,
-    }
+    let token_data = TokenData::new(
+        params.name,
+        params.ticker,
+        mint_as_bytes,
+        params.decimals,
+        params.website,
+        params.logo_uri,
+    )
     .try_to_vec()
     .unwrap();
+
     // Mint data
-    let mint_data = Mint {
-        mint: mint_as_bytes,
-    }
-    .try_to_vec()
-    .unwrap();
+    let mint_data = Mint::new(mint_as_bytes).try_to_vec().unwrap();
 
     let lamports_token_data = Rent::get()?.minimum_balance(token_data.len());
     let lamports_mint_data = Rent::get()?.minimum_balance(mint_data.len());

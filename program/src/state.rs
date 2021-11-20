@@ -39,6 +39,24 @@ pub struct TokenData {
 }
 
 impl TokenData {
+    pub fn new(
+        name: String,
+        ticker: String,
+        mint: [u8; 32],
+        decimals: u8,
+        website: String,
+        logo_uri: String,
+    ) -> Self {
+        TokenData {
+            name,
+            ticker,
+            mint,
+            decimals,
+            website,
+            logo_uri,
+        }
+    }
+
     pub fn save(&self, mut dst: &mut [u8]) {
         self.serialize(&mut dst).unwrap()
     }
@@ -50,6 +68,10 @@ pub struct Mint {
 }
 
 impl Mint {
+    pub fn new(mint: [u8; 32]) -> Self {
+        Mint { mint }
+    }
+
     pub fn save(&self, mut dst: &mut [u8]) {
         self.serialize(&mut dst).unwrap()
     }
